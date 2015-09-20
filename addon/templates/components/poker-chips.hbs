@@ -1,0 +1,27 @@
+
+{{!-- {{#each sortedDenominations as |denom|}}
+  {{! having trouble getting handebars to fetch a numeric key from an obj }}
+  {{#if (get chipMap denom)}}
+    <div class='chip-stack d-{{denom}}'>
+      {{#x-times times=(get chipMap denom)}}
+        <div class="chip-container d-{{denom}}">
+          {{#x-times times=10}}
+            <div class="poker-chip iso d-{{denom}}"></div>
+          {{/x-times}}
+        </div>
+      {{/x-times}}
+    </div>
+  {{/if}}
+{{/each}} --}}
+
+{{#each chipArrays as |chipArray|}}
+  <div class='chip-stack d-{{denom}}'>
+    {{#each chipArray as |denom|}}
+      <div class="poker-chip d-{{denom}}">
+        {{#x-times times=10}}
+          <div class="chip-fragment iso d-{{denom}}"></div>
+        {{/x-times}}
+      </div>
+    {{/each}}
+  </div>
+{{/each}}

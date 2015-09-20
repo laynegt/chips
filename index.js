@@ -2,5 +2,8 @@
 'use strict';
 
 module.exports = {
-  name: 'ember-poker-chips'
+  name: 'ember-poker-chips',
+  included: function(app) {
+    this._super.included(app);
+  }
 };

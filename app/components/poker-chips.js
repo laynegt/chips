@@ -1,0 +1,1 @@
+export { default } from 'ember-poker-chips/components/poker-chips';

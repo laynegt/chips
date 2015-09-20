@@ -1,0 +1,208 @@
+$base-stack-offset: 120px;
+$chip-height: 8px;
+$chip-segments: 10;
+
+.poker-chips-container {
+  position: relative;
+  top: 20px;
+  left: 50px;
+  width: 6em;
+  height: 200px;
+  float: left;
+
+  .chip-stack {
+    position: absolute;
+
+    $stack-offset: 0px;
+    @for $i from 1 through 25 {
+      &:nth-child(#{$i}) {
+        left: #{$stack-offset};
+        $stack-offset: $stack-offset + $base-stack-offset;
+      }
+    }
+  }
+}
+
+.poker-chip{
+  margin:.5em;
+  font-size:1.2em;
+  position: absolute;
+  display:inline-block;
+  -webkit-box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  box-sizing:border-box;
+  width:5em;
+  height:5em;
+  background:#555;
+  border-radius:50%;
+  position:relative;
+  border:.5em dashed white;
+  transition:all .5s ease;
+  backface-visibility:hidden;
+}
+
+// what if instead of a shadow, i just drew multiple chips vertically to make
+// it look like a chip wall
+
+@function xy-offset($angle, $radius){
+  // normalize 0deg to return -1px, 1px
+  $angle: $angle + 225deg;
+  $x: cos($angle) * $radius;
+  $y: sin($angle) * $radius; // offset is reversed on y-axis
+  @return $x * 1px $y * -1px;
+}
+
+@mixin iso-shadow($shadow-color, $angle:""){
+  @if $angle == "" {
+    $angle: 0deg;
+  }
+
+  // these offsets are for a 45 degree angle
+  box-shadow:
+    // xy-offset($angle, sqrt(2)) 0px $shadow-color,
+    // xy-offset($angle, sqrt(8)) 0px $shadow-color,
+    // xy-offset($angle, sqrt(18)) 0px $shadow-color,
+    // xy-offset($angle, sqrt(32)) 0px $shadow-color,
+    // xy-offset($angle, sqrt(50)) 0px $shadow-color,
+    // xy-offset($angle, sqrt(72)) 0px $shadow-color,
+    // xy-offset($angle, sqrt(98)) 0px $shadow-color,
+    // xy-offset($angle, sqrt(128)) 0px $shadow-color,
+    xy-offset($angle, sqrt(162)) 0px $shadow-color;
+}
+
+.chip-container{
+  position: absolute;
+  transition:all .5s ease;
+
+  $top-offset: 0px;
+  @for $i from 1 through 50 {
+    $angle: random(72) * 5deg; // don't need too many uniques
+
+    &:nth-child(#{$i}) {
+      top: -#{$top-offset};
+      //left: random(500) * 1px;
+      $top-offset: $top-offset + $chip-height;
+
+      .poker-chip {
+        transform: perspective(3000px) rotateX(55deg) rotateZ(-40deg) rotate($angle) translateX(random(6) * 1px - 3px) translateY(random(6) * 1px - 3px);
+      }
+
+      &:hover {
+        // transform: translateY(-40px);
+        .poker-chip{
+          transform: perspective(3000px) rotateX(55deg) rotateZ(-40deg) rotate($angle + 90deg);
+        }
+      }
+    }
+  }
+}
+
+.poker-chip.iso{
+  position: absolute;
+
+  @for $i from 1 through $chip-segments {
+    &:nth-child(#{$i}) {
+      top: ($chip-segments - $i) * 1px;
+    }
+  }
+}
+
+.poker-chip.d-1{
+  background: skyblue;
+  border-color: whitesmoke;
+}
+
+.poker-chip.d-5{
+  background: #DF0101;
+  border-color: aqua;
+}
+
+.poker-chip.d-25{
+  background: darkgreen;
+  border-color: silver;
+}
+
+.poker-chip.d-100{
+  background: lighten(black, 20%);
+  border-color: pink;
+}
+
+.poker-chip.d-500{
+  background: darken(pink, 10%);
+  border-color: darken(skyblue, 10%);
+}
+
+.poker-chip.d-1000{
+  background: gold;
+  border-color: royalblue;
+}
+
+
+/** attempt at 3d styles **/
+
+.container {
+  perspective: 500px;
+}
+
+.frame {
+  transform-style: preserve-3d;
+  transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) translate3d(0px, 70px, 0px);
+}
+
+.chip-wall {
+  transform-style: preserve-3d;
+  // transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) translate3d(-15px, 70px, 0px);
+
+  div {
+    position: fixed;
+    background: blue;
+    background-repeat:repeat;
+    border-width: thin 10px;
+    transition: all .2s;
+    height:20px;
+    width:10px;
+    border-top:1px solid black;
+    border-bottom:1px solid black;
+    color: #f00;
+
+    $current-angle: 0deg;
+    @for $i from 1 through 8 {
+      &:nth-child(#{$i}) {
+        transform: rotateY($current-angle) translateZ(40px);
+        $current-angle: $current-angle + 45deg;
+      }
+    }
+
+    // &:nth-child(1) {
+	  //   transform: rotateY(0deg) translateZ(40px);
+    // }
+    //
+    // &:nth-child(2) {
+	  //   transform: rotateY(45deg) translateZ(40px);
+    // }
+    //
+    // &:nth-child(3) {
+	  //   transform: rotateY(90deg) translateZ(40px);
+    // }
+    //
+    // &:nth-child(4) {
+	  //   transform: rotateY(135deg) translateZ(40px);
+    // }
+    //
+    // &:nth-child(5) {
+	  //   transform: rotateY(180deg) translateZ(40px);
+    // }
+    //
+    // &:nth-child(6) {
+	  //   transform: rotateY(225deg) translateZ(40px);
+    // }
+    //
+    // &:nth-child(7) {
+	  //   transform: rotateY(270deg) translateZ(40px);
+    // }
+    //
+    // &:nth-child(8) {
+	  //   transform: rotateY(315deg) translateZ(40px);
+    // }
+  }
+}
