@@ -23,7 +23,8 @@
   "dependencies": {
     "ember-cli-babel": "^7.7.3",
     "ember-cli-htmlbars": "^3.0.1",
-    "ember-cli-sass": "git+https://github.com/dukex/ember-cli-sass.git#bugfix/addon-styles"
+    "ember-cli-sass": "^10.0.1",
+    "sass": "^1.20.1"
   },
   "devDependencies": {
     "@ember/optional-features": "^0.7.0",
